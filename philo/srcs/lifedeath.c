@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:18:58 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/28 17:36:36 by wismith          ###   ########.fr       */
+/*   Updated: 2022/05/28 17:46:09 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ void	*brainzzz(void *brain_matter)
 	p = (t_philo *) brain_matter;
 	printf("%lu %d spawned\n",
 		time_dif(p->table->init_time, timestamp(p->table)), p->id);
-	alarm_clock(5);
-	printf("%lu %d grabbed a fork\n",
-		time_dif(p->table->init_time, timestamp(p->table)), p->id);
+	alarm_clock(1);
+	printf("%lu %d %d is my right fork\n",
+		time_dif(p->table->init_time, timestamp(p->table)),
+		p->id, p->r_fork_id);
 	return (NULL);
 }
 
@@ -54,6 +55,11 @@ void	neuron_def(t_philo *p, t_table *dinner)
 	while (i < dinner->n_philo)
 	{
 		p[i].id = i + 1;
+		p[i].l_fork_id = p[i].id;
+		if (i == 0)
+			p[i].r_fork_id = dinner->n_philo;
+		else
+			p[i].r_fork_id = p[i].id - 1;
 		p[i].table = dinner;
 		i++;
 	}
