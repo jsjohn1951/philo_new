@@ -6,14 +6,14 @@
 #    By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/16 13:55:50 by wismith           #+#    #+#              #
-#    Updated: 2022/05/26 23:52:57 by wismith          ###   ########.fr        #
+#    Updated: 2022/05/28 15:24:00 by wismith          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .SILENT:
 
 NAME = philo
-SRCS = main parser lifedeath
+SRCS = main parser lifedeath tools actions
 
 OBJDIR = OBJECTS
 OBJ = $(addprefix $(OBJDIR)/, $(addsuffix .o , $(SRCS)))

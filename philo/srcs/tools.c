@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/26 19:58:01 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/28 15:43:20 by wismith          ###   ########.fr       */
+/*   Created: 2022/05/28 15:24:46 by wismith           #+#    #+#             */
+/*   Updated: 2022/05/28 15:53:41 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	ft_putstr_err(char *s)
+unsigned long	timestamp(t_table *table)
 {
-	int	i;
+	unsigned long	res;
 
-	i = 0;
-	while (s[i])
-		i++;
-	write(2, s, i);
-	exit(1);
+	gettimeofday(&table->tv, NULL);
+	res = (table->tv.tv_sec * 1000) + (table->tv.tv_usec / 1000);
+	return (res);
 }
 
-int	main(int argc, char **argv)
+unsigned long	time_dif(unsigned long init, unsigned long current)
 {
-	t_table	dinner;
-
-	if (argc != 5 && argc != 6)
-		ft_putstr_err("Error!\n\tWrong number of arguments\n");
-	parser(argc, argv, &dinner);
-	birth_machine(&dinner);
-	return (0);
+	return (current - init);
 }

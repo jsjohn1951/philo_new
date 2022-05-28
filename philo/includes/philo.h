@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 13:57:47 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/27 13:03:20 by wismith          ###   ########.fr       */
+/*   Updated: 2022/05/28 15:43:38 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,27 @@ typedef struct s_table
 	int				t_sleep;
 	int				must_eat;
 	int				he_dead;
+	unsigned long	init_time;
 	t_philo			p[250];
+	struct timeval	tv;
 	pthread_mutex_t	fork[250];
 	pthread_mutex_t	scroll_protect;
 	pthread_mutex_t	dont_touch_my_food;
 }	t_table;
 
 /* Parser */
-void	parser(int argc, char **argv, t_table *dinner);
+void			parser(int argc, char **argv, t_table *dinner);
 
 /* Error Management */
-void	ft_putstr_err(char *s);
+void			ft_putstr_err(char *s);
 
 /* init */
-void	birth_machine(t_table *dinner);
+void			birth_machine(t_table *dinner);
+
+/* tools */
+unsigned long	timestamp(t_table *time);
+unsigned long	time_dif(unsigned long init, unsigned long current);
+
+/* actions */
 
 #endif

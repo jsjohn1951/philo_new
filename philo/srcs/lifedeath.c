@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:18:58 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/27 18:39:53 by wismith          ###   ########.fr       */
+/*   Updated: 2022/05/28 15:54:31 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@ void	*brainzzz(void *brain_matter)
 	t_philo	*p;
 
 	p = (t_philo *) brain_matter;
-	printf("%d spawned\n", p->id);
-	usleep(1000);
-	printf("thread\n");
+	printf("%lu %d spawned\n",
+		time_dif(p->table->init_time, timestamp(p->table)), p->id);
 	return (NULL);
 }
 
@@ -51,6 +50,7 @@ void	neuron_def(t_philo *p, t_table *dinner)
 	while (i < dinner->n_philo)
 	{
 		p[i].id = i + 1;
+		p[i].table = dinner;
 		i++;
 	}
 }
@@ -65,6 +65,7 @@ void	birth_machine(t_table *dinner)
 	neuron_def(p, dinner);
 	pthread_mutex_init(&dinner->scroll_protect, NULL);
 	pthread_mutex_init(&dinner->dont_touch_my_food, NULL);
+	dinner->init_time = timestamp(dinner);
 	while (i < dinner->n_philo)
 	{
 		if (pthread_mutex_init(&dinner->fork[i], NULL))
