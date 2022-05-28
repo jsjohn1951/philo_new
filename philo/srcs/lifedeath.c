@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:18:58 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/28 15:54:31 by wismith          ###   ########.fr       */
+/*   Updated: 2022/05/28 17:36:36 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ void	*brainzzz(void *brain_matter)
 
 	p = (t_philo *) brain_matter;
 	printf("%lu %d spawned\n",
+		time_dif(p->table->init_time, timestamp(p->table)), p->id);
+	alarm_clock(5);
+	printf("%lu %d grabbed a fork\n",
 		time_dif(p->table->init_time, timestamp(p->table)), p->id);
 	return (NULL);
 }
@@ -40,6 +43,7 @@ void	old_age_bummer(t_table *dinner, t_philo *p)
 		i++;
 	}
 	pthread_mutex_destroy(&dinner->scroll_protect);
+	pthread_mutex_destroy(&dinner->dont_touch_my_food);
 }
 
 void	neuron_def(t_philo *p, t_table *dinner)

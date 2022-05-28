@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 13:57:47 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/28 15:43:38 by wismith          ###   ########.fr       */
+/*   Updated: 2022/05/28 17:31:03 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void			birth_machine(t_table *dinner);
 /* tools */
 unsigned long	timestamp(t_table *time);
 unsigned long	time_dif(unsigned long init, unsigned long current);
+void			alarm_clock(unsigned long time);
 
 /* actions */
 
