@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:18:58 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/28 17:46:09 by wismith          ###   ########.fr       */
+/*   Updated: 2022/05/29 22:57:44 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ void	*brainzzz(void *brain_matter)
 	printf("%lu %d spawned\n",
 		time_dif(p->table->init_time, timestamp(p->table)), p->id);
 	alarm_clock(1);
-	printf("%lu %d %d is my right fork\n",
-		time_dif(p->table->init_time, timestamp(p->table)),
-		p->id, p->r_fork_id);
+	submit_scroll(p, "grabbed a fork");
 	return (NULL);
 }
 
@@ -56,11 +54,39 @@ void	neuron_def(t_philo *p, t_table *dinner)
 	{
 		p[i].id = i + 1;
 		p[i].l_fork_id = p[i].id;
+		p[i].eating = 0;
+		p[i].last_feast = timestamp(dinner);
 		if (i == 0)
 			p[i].r_fork_id = dinner->n_philo;
 		else
 			p[i].r_fork_id = p[i].id - 1;
 		p[i].table = dinner;
+		i++;
+	}
+}
+
+void	mortality_check(t_table *dinner)
+{
+	int	i;
+	int	id;
+
+	i = 0;
+	while ((!dinner->must_eat || i < dinner->must_eat)
+		&& !dinner->he_dead)
+	{
+		id = 0;
+		while (id < dinner->n_philo && !dinner->he_dead)
+		{
+			if (time_dif(dinner->p[id].last_feast, timestamp(dinner))
+				>= dinner->t_die)
+			{
+				printf("%lu %d died\n",
+					time_dif(dinner->p[id].last_feast, timestamp(dinner)),
+					id + 1);
+				dinner->he_dead = 1;
+			}
+			id++;
+		}
 		i++;
 	}
 }
@@ -72,9 +98,10 @@ void	birth_machine(t_table *dinner)
 
 	p = dinner->p;
 	i = 0;
-	neuron_def(p, dinner);
 	pthread_mutex_init(&dinner->scroll_protect, NULL);
 	pthread_mutex_init(&dinner->dont_touch_my_food, NULL);
+	pthread_mutex_init(&dinner->time, NULL);
+	neuron_def(p, dinner);
 	dinner->init_time = timestamp(dinner);
 	while (i < dinner->n_philo)
 	{
@@ -85,5 +112,6 @@ void	birth_machine(t_table *dinner)
 		usleep(2);
 		i++;
 	}
+	mortality_check(dinner);
 	old_age_bummer(dinner, p);
 }

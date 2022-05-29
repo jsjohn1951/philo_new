@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 13:57:47 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/28 17:31:03 by wismith          ###   ########.fr       */
+/*   Updated: 2022/05/29 22:41:45 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_philo
 	int				r_fork_id;
 	int				l_fork_id;
 	int				eating;
-	int				last_feast;
+	unsigned long	last_feast;
 	pthread_t		thread;
 	struct s_table	*table;
 }	t_philo;
@@ -45,8 +45,8 @@ typedef struct s_philo
 typedef struct s_table
 {
 	int				n_philo;
-	int				t_die;
-	int				t_eat;
+	unsigned long	t_die;
+	unsigned long	t_eat;
 	int				t_sleep;
 	int				must_eat;
 	int				he_dead;
@@ -56,6 +56,7 @@ typedef struct s_table
 	pthread_mutex_t	fork[250];
 	pthread_mutex_t	scroll_protect;
 	pthread_mutex_t	dont_touch_my_food;
+	pthread_mutex_t	time;
 }	t_table;
 
 /* Parser */
@@ -71,6 +72,7 @@ void			birth_machine(t_table *dinner);
 unsigned long	timestamp(t_table *time);
 unsigned long	time_dif(unsigned long init, unsigned long current);
 void			alarm_clock(unsigned long time);
+void			submit_scroll(t_philo *p, char *s);
 
 /* actions */
 
