@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:18:58 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/29 22:57:44 by wismith          ###   ########.fr       */
+/*   Updated: 2022/05/30 11:23:48 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@ void	*brainzzz(void *brain_matter)
 	t_philo	*p;
 
 	p = (t_philo *) brain_matter;
-	printf("%lu %d spawned\n",
-		time_dif(p->table->init_time, timestamp(p->table)), p->id);
-	alarm_clock(1);
-	submit_scroll(p, "grabbed a fork");
+	while (!p->table->he_dead)
+	{
+		feaster(p);
+		submit_scroll(p, "is sleeping");
+		alarm_clock(p->table->t_sleep);
+		submit_scroll(p, "is thinking");
+	}
 	return (NULL);
 }
 

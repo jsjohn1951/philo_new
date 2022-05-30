@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 13:57:47 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/29 22:41:45 by wismith          ###   ########.fr       */
+/*   Updated: 2022/05/30 11:06:04 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ void			alarm_clock(unsigned long time);
 void			submit_scroll(t_philo *p, char *s);
 
 /* actions */
+void			feaster(t_philo *p);
 
 #endif
