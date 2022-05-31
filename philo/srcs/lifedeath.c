@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:18:58 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/30 11:23:48 by wismith          ###   ########.fr       */
+/*   Updated: 2022/05/31 16:56:39 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	neuron_def(t_philo *p, t_table *dinner)
 		else
 			p[i].r_fork_id = p[i].id - 1;
 		p[i].table = dinner;
+		dinner->forks[i] = 0;
 		i++;
 	}
 }

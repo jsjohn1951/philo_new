@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 15:24:46 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/29 22:53:12 by wismith          ###   ########.fr       */
+/*   Updated: 2022/05/31 16:55:48 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 void	submit_scroll(t_philo *p, char *s)
 {
 	pthread_mutex_lock(&p->table->scroll_protect);
-	printf("%lu %d %s\n", time_dif(p->table->init_time, timestamp(p->table)),
-		p->id, s);
+	if (!p->table->he_dead)
+		printf("%lu %d %s\n", time_dif(p->table->init_time, timestamp(p->table)),
+			p->id, s);
 	pthread_mutex_unlock(&p->table->scroll_protect);
 }
 

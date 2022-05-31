@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 13:57:47 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/30 11:06:04 by wismith          ###   ########.fr       */
+/*   Updated: 2022/05/31 16:33:07 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_table
 	int				t_sleep;
 	int				must_eat;
 	int				he_dead;
+	int				forks[250];
 	unsigned long	init_time;
 	t_philo			p[250];
 	struct timeval	tv;
