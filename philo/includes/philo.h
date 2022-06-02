@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 13:57:47 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/31 16:33:07 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/01 18:50:45 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ typedef struct s_table
 	t_philo			p[250];
 	struct timeval	tv;
 	pthread_mutex_t	fork[250];
+	pthread_mutex_t	deadly;
 	pthread_mutex_t	scroll_protect;
-	pthread_mutex_t	dont_touch_my_food;
 	pthread_mutex_t	time;
 }	t_table;
 
@@ -77,5 +77,6 @@ void			submit_scroll(t_philo *p, char *s);
 
 /* actions */
 void			feaster(t_philo *p);
+int				coffin_awaits(t_philo *p);
 
 #endif

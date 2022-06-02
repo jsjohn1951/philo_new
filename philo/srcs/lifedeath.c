@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:18:58 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/31 16:56:39 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/01 18:52:52 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,15 @@ void	*brainzzz(void *brain_matter)
 	p = (t_philo *) brain_matter;
 	while (!p->table->he_dead)
 	{
+		if (coffin_awaits(p))
+			return (NULL);
 		feaster(p);
+		if (coffin_awaits(p))
+			return (NULL);
 		submit_scroll(p, "is sleeping");
 		alarm_clock(p->table->t_sleep);
+		if (coffin_awaits(p))
+			return (NULL);
 		submit_scroll(p, "is thinking");
 	}
 	return (NULL);
@@ -45,7 +51,6 @@ void	old_age_bummer(t_table *dinner, t_philo *p)
 		i++;
 	}
 	pthread_mutex_destroy(&dinner->scroll_protect);
-	pthread_mutex_destroy(&dinner->dont_touch_my_food);
 }
 
 void	neuron_def(t_philo *p, t_table *dinner)
@@ -69,31 +74,31 @@ void	neuron_def(t_philo *p, t_table *dinner)
 	}
 }
 
-void	mortality_check(t_table *dinner)
-{
-	int	i;
-	int	id;
+// void	mortality_check(t_table *dinner)
+// {
+// 	int	i;
+// 	int	id;
 
-	i = 0;
-	while ((!dinner->must_eat || i < dinner->must_eat)
-		&& !dinner->he_dead)
-	{
-		id = 0;
-		while (id < dinner->n_philo && !dinner->he_dead)
-		{
-			if (time_dif(dinner->p[id].last_feast, timestamp(dinner))
-				>= dinner->t_die)
-			{
-				printf("%lu %d died\n",
-					time_dif(dinner->p[id].last_feast, timestamp(dinner)),
-					id + 1);
-				dinner->he_dead = 1;
-			}
-			id++;
-		}
-		i++;
-	}
-}
+// 	i = 0;
+// 	while ((!dinner->must_eat || i < dinner->must_eat)
+// 		&& !dinner->he_dead)
+// 	{
+// 		id = 0;
+// 		while (id < dinner->n_philo && !dinner->he_dead)
+// 		{
+// 			if (time_dif(dinner->p[id].last_feast, timestamp(dinner))
+// 				>= dinner->t_die)
+// 			{
+// 				printf("%lu %d died\n",
+// 					time_dif(dinner->p[id].last_feast, timestamp(dinner)),
+// 					id + 1);
+// 				dinner->he_dead = 1;
+// 			}
+// 			id++;
+// 		}
+// 		i++;
+// 	}
+// }
 
 void	birth_machine(t_table *dinner)
 {
@@ -103,8 +108,8 @@ void	birth_machine(t_table *dinner)
 	p = dinner->p;
 	i = 0;
 	pthread_mutex_init(&dinner->scroll_protect, NULL);
-	pthread_mutex_init(&dinner->dont_touch_my_food, NULL);
 	pthread_mutex_init(&dinner->time, NULL);
+	pthread_mutex_init(&dinner->deadly, NULL);
 	neuron_def(p, dinner);
 	dinner->init_time = timestamp(dinner);
 	while (i < dinner->n_philo)
@@ -113,9 +118,8 @@ void	birth_machine(t_table *dinner)
 			ft_putstr_err("Error!\n\tCan't create locks\n");
 		if (pthread_create(&p[i].thread, NULL, brainzzz, &p[i]))
 			ft_putstr_err("Error!\n\tSpawner broke\n");
-		usleep(2);
 		i++;
 	}
-	mortality_check(dinner);
+	// mortality_check(dinner);
 	old_age_bummer(dinner, p);
 }

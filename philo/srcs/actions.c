@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 11:04:38 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/31 16:51:22 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/01 18:52:05 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,17 @@ void	feaster(t_philo *p)
 		p->table->forks[p->l_fork_id] = 0;
 		pthread_mutex_unlock(&p->table->fork[p->l_fork_id]);
 	}
+}
+
+int	coffin_awaits(t_philo *p)
+{
+	if (time_dif(p->last_feast, timestamp(p->table)) > p->table->t_die)
+	{
+		submit_scroll(p, "died");
+		pthread_mutex_lock(&p->table->deadly);
+		p->table->he_dead = 1;
+		pthread_mutex_unlock(&p->table->deadly);
+		return (1);
+	}
+	return (0);
 }
