@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:18:58 by wismith           #+#    #+#             */
-/*   Updated: 2022/06/02 15:53:12 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/02 17:30:56 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	old_age_bummer(t_table *dinner, t_philo *p)
 	i = 0;
 	while (i < dinner->n_philo)
 	{
-		printf("%d has eaten : %d times\n", p[i].id, p[i].num_eatin);
 		if (pthread_join(p[i].thread, NULL))
 			ft_putstr_err("Error!\n\tHe just won't die\n");
+		// printf("%d has eaten : %d times\n", p[i].id, p[i].num_eatin);
 		i++;
 	}
 	i = 0;
