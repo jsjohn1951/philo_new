@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:22:05 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/26 22:51:44 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/02 15:29:11 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,6 @@ void	parser(int argc, char **argv, t_table *dinner)
 	dinner->t_sleep = num_check(argv[4]);
 	if (argc == 6)
 		dinner->must_eat = num_check(argv[5]);
+	else
+		dinner->must_eat = -1;
 }

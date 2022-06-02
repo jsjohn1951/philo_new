@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 13:57:47 by wismith           #+#    #+#             */
-/*   Updated: 2022/06/01 18:50:45 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/02 15:51:10 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_philo
 	int				r_fork_id;
 	int				l_fork_id;
 	int				eating;
+	int				num_eatin;
 	unsigned long	last_feast;
 	pthread_t		thread;
 	struct s_table	*table;
