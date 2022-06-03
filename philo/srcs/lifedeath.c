@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:18:58 by wismith           #+#    #+#             */
-/*   Updated: 2022/06/03 14:23:07 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/03 15:06:46 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	*brainzzz(void *brain_matter)
 		if (coffin_awaits(p))
 			return (NULL);
 		submit_scroll(p, "is thinking");
-		p->num_eatin++;
 	}
 	return (NULL);
 }
@@ -42,8 +41,11 @@ void	old_age_bummer(t_table *dinner, t_philo *p)
 
 	i = -1;
 	while (++i < dinner->n_philo)
+	{
 		if (pthread_join(p[i].thread, NULL))
 			ft_putstr_err("Error!\n\tHe just won't die\n");
+		// printf("philo %d has eaten %d times\n", p[i].id, p[i].num_eatin);
+	}
 	i = -1;
 	while (++i < dinner->n_philo)
 		pthread_mutex_destroy(&dinner->fork[i]);
