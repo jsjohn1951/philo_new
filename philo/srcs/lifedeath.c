@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:18:58 by wismith           #+#    #+#             */
-/*   Updated: 2022/06/02 17:30:56 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/03 11:50:58 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*brainzzz(void *brain_matter)
 			|| (p->table->must_eat >= 0 && p->num_eatin >= p->table->must_eat))
 			return (NULL);
 		submit_scroll(p, "is sleeping");
-		alarm_clock(p->table->t_sleep);
+		alarm_clock(p->table->t_sleep, p);
 		if (coffin_awaits(p)
 			|| (p->table->must_eat >= 0 && p->num_eatin >= p->table->must_eat))
 			return (NULL);
@@ -42,20 +42,13 @@ void	old_age_bummer(t_table *dinner, t_philo *p)
 {
 	int	i;
 
-	i = 0;
-	while (i < dinner->n_philo)
-	{
+	i = -1;
+	while (++i < dinner->n_philo)
 		if (pthread_join(p[i].thread, NULL))
 			ft_putstr_err("Error!\n\tHe just won't die\n");
-		// printf("%d has eaten : %d times\n", p[i].id, p[i].num_eatin);
-		i++;
-	}
-	i = 0;
-	while (i < dinner->n_philo)
-	{
+	i = -1;
+	while (++i < dinner->n_philo)
 		pthread_mutex_destroy(&dinner->fork[i]);
-		i++;
-	}
 	pthread_mutex_destroy(&dinner->scroll_protect);
 }
 
@@ -63,8 +56,8 @@ void	neuron_def(t_philo *p, t_table *dinner)
 {
 	int	i;
 
-	i = 0;
-	while (i < dinner->n_philo)
+	i = -1;
+	while (++i < dinner->n_philo)
 	{
 		p[i].id = i + 1;
 		p[i].l_fork_id = p[i].id;
@@ -76,7 +69,6 @@ void	neuron_def(t_philo *p, t_table *dinner)
 			p[i].r_fork_id = p[i].id - 1;
 		p[i].table = dinner;
 		dinner->forks[i] = 0;
-		i++;
 	}
 }
 
@@ -86,19 +78,18 @@ void	birth_machine(t_table *dinner)
 	t_philo	*p;
 
 	p = dinner->p;
-	i = 0;
+	i = -1;
 	pthread_mutex_init(&dinner->scroll_protect, NULL);
 	pthread_mutex_init(&dinner->time, NULL);
 	pthread_mutex_init(&dinner->deadly, NULL);
 	neuron_def(p, dinner);
 	dinner->init_time = timestamp(dinner);
-	while (i < dinner->n_philo)
+	while (++i < dinner->n_philo)
 	{
 		if (pthread_mutex_init(&dinner->fork[i], NULL))
 			ft_putstr_err("Error!\n\tCan't create locks\n");
 		if (pthread_create(&p[i].thread, NULL, brainzzz, &p[i]))
 			ft_putstr_err("Error!\n\tSpawner broke\n");
-		i++;
 	}
 	old_age_bummer(dinner, p);
 }

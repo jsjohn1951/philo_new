@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 15:24:46 by wismith           #+#    #+#             */
-/*   Updated: 2022/05/31 16:55:48 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/03 11:59:40 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,13 @@ unsigned long	time_dif(unsigned long init, unsigned long current)
 	return (current - init);
 }
 
-void	alarm_clock(unsigned long time)
+void	alarm_clock(unsigned long time, t_philo *p)
 {
 	unsigned long	current;
 	unsigned long	init;
 	struct timeval	tv;
 
+	pthread_mutex_lock(&p->table->time);
 	gettimeofday(&tv, NULL);
 	init = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 	current = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
@@ -50,5 +51,11 @@ void	alarm_clock(unsigned long time)
 	{
 		gettimeofday(&tv, NULL);
 		current = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+		// if ((current - init) > p->table->t_die)
+		// {
+		// 	pthread_mutex_unlock(&p->table->time);
+		// 	return ;
+		// }
 	}
+	pthread_mutex_unlock(&p->table->time);
 }

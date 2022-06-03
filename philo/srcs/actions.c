@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 11:04:38 by wismith           #+#    #+#             */
-/*   Updated: 2022/06/02 15:39:48 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/03 11:48:45 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	feaster(t_philo *p)
 			submit_scroll(p, "has taken a fork");
 			submit_scroll(p, "is eating");
 			p->last_feast = timestamp(p->table);
-			alarm_clock(p->table->t_eat);
+			alarm_clock(p->table->t_eat, p);
 			p->table->forks[p->r_fork_id] = 0;
 			pthread_mutex_unlock(&p->table->fork[p->r_fork_id]);
 		}
@@ -37,7 +37,7 @@ void	feaster(t_philo *p)
 
 int	coffin_awaits(t_philo *p)
 {
-	if (time_dif(p->last_feast, timestamp(p->table)) > p->table->t_die)
+	if (time_dif(p->last_feast, timestamp(p->table)) >= p->table->t_die)
 	{
 		submit_scroll(p, "died");
 		pthread_mutex_lock(&p->table->deadly);
