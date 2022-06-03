@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:18:58 by wismith           #+#    #+#             */
-/*   Updated: 2022/06/03 15:06:46 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/03 18:56:35 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	neuron_def(t_philo *p, t_table *dinner)
 	i = -1;
 	while (++i < dinner->n_philo)
 	{
+		pthread_mutex_init(&p[i].dont_steal_food, NULL);
 		p[i].id = i + 1;
 		p[i].l_fork_id = p[i].id;
 		p[i].eating = 0;

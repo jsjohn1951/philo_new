@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 13:57:47 by wismith           #+#    #+#             */
-/*   Updated: 2022/06/03 16:00:01 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/03 18:56:08 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_philo
 	unsigned long	last_feast;
 	pthread_t		thread;
 	struct s_table	*table;
+	pthread_mutex_t	dont_steal_food;
 }	t_philo;
 
 typedef struct s_table
