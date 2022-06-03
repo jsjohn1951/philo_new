@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 15:24:46 by wismith           #+#    #+#             */
-/*   Updated: 2022/06/03 11:59:40 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/03 13:50:47 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,14 @@ void	alarm_clock(unsigned long time, t_philo *p)
 
 	pthread_mutex_lock(&p->table->time);
 	gettimeofday(&tv, NULL);
+	pthread_mutex_unlock(&p->table->time);
 	init = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 	current = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 	while ((current - init) < time)
 	{
+		pthread_mutex_lock(&p->table->time);
 		gettimeofday(&tv, NULL);
+		pthread_mutex_unlock(&p->table->time);
 		current = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-		// if ((current - init) > p->table->t_die)
-		// {
-		// 	pthread_mutex_unlock(&p->table->time);
-		// 	return ;
-		// }
 	}
-	pthread_mutex_unlock(&p->table->time);
 }
