@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:18:58 by wismith           #+#    #+#             */
-/*   Updated: 2022/06/03 14:13:57 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/03 14:23:07 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ void	*brainzzz(void *brain_matter)
 	p->num_eatin = 0;
 	while (!p->table->he_dead)
 	{
-		if (coffin_awaits(p)
-			|| (p->table->must_eat >= 0 && p->num_eatin >= p->table->must_eat))
+		if (coffin_awaits(p))
 			return (NULL);
 		feaster(p);
 		if (coffin_awaits(p)
@@ -29,8 +28,7 @@ void	*brainzzz(void *brain_matter)
 			return (NULL);
 		submit_scroll(p, "is sleeping");
 		alarm_clock(p->table->t_sleep, p);
-		if (coffin_awaits(p)
-			|| (p->table->must_eat >= 0 && p->num_eatin >= p->table->must_eat))
+		if (coffin_awaits(p))
 			return (NULL);
 		submit_scroll(p, "is thinking");
 		p->num_eatin++;
