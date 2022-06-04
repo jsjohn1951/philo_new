@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 15:24:46 by wismith           #+#    #+#             */
-/*   Updated: 2022/06/03 16:48:02 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/04 20:49:46 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,18 @@
 
 void	submit_scroll(t_philo *p, char *s)
 {
-	static int	i;
-
-	pthread_mutex_lock(&p->table->scroll_protect);
-	if (i % 2)
-		printf(KRED);
-	else if (i % 3)
-		printf(KNRM);
-	else
-		printf(KBLU);
+	pthread_mutex_lock(&p->table->death_check);
 	if (!p->table->he_dead)
+	{
+		pthread_mutex_unlock(&p->table->death_check);
+		pthread_mutex_lock(&p->table->scroll_protect);
 		printf("%lums %d %s\n",
 			time_dif(p->table->init_time, timestamp(p->table)),
 			p->id, s);
-	printf(KNRM);
-	i++;
-	pthread_mutex_unlock(&p->table->scroll_protect);
+		pthread_mutex_unlock(&p->table->scroll_protect);
+	}
+	else
+		pthread_mutex_unlock(&p->table->death_check);
 }
 
 unsigned long	timestamp(t_table *table)

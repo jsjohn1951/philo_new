@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:18:58 by wismith           #+#    #+#             */
-/*   Updated: 2022/06/03 18:56:35 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/04 21:20:50 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ void	old_age_bummer(t_table *dinner, t_philo *p)
 	{
 		if (pthread_join(p[i].thread, NULL))
 			ft_putstr_err("Error!\n\tHe just won't die\n");
-		// printf("philo %d has eaten %d times\n", p[i].id, p[i].num_eatin);
 	}
 	i = -1;
 	while (++i < dinner->n_philo)
 		pthread_mutex_destroy(&dinner->fork[i]);
 	pthread_mutex_destroy(&dinner->scroll_protect);
+	pthread_mutex_destroy(&dinner->death_check);
 }
 
 void	neuron_def(t_philo *p, t_table *dinner)
@@ -83,6 +83,7 @@ void	birth_machine(t_table *dinner)
 	pthread_mutex_init(&dinner->scroll_protect, NULL);
 	pthread_mutex_init(&dinner->time, NULL);
 	pthread_mutex_init(&dinner->deadly, NULL);
+	pthread_mutex_init(&dinner->death_check, NULL);
 	neuron_def(p, dinner);
 	dinner->init_time = timestamp(dinner);
 	while (++i < dinner->n_philo)

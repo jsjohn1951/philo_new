@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 13:57:47 by wismith           #+#    #+#             */
-/*   Updated: 2022/06/03 18:56:08 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/04 20:48:37 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,13 @@ typedef struct s_table
 	int				t_sleep;
 	int				must_eat;
 	int				he_dead;
-	int				forks[250];
 	unsigned long	init_time;
-	t_philo			p[250];
 	struct timeval	tv;
+	int				forks[250];
+	t_philo			p[250];
 	pthread_mutex_t	fork[250];
 	pthread_mutex_t	deadly;
+	pthread_mutex_t	death_check;
 	pthread_mutex_t	scroll_protect;
 	pthread_mutex_t	time;
 }	t_table;
