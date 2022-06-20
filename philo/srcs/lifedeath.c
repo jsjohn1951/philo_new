@@ -6,7 +6,7 @@
 /*   By: wismith <wismith@42ABUDHABI.AE>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:18:58 by wismith           #+#    #+#             */
-/*   Updated: 2022/06/04 21:20:50 by wismith          ###   ########.fr       */
+/*   Updated: 2022/06/05 16:07:51 by wismith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,23 @@ void	*brainzzz(void *brain_matter)
 
 	p = (t_philo *) brain_matter;
 	p->num_eatin = 0;
-	while (!p->table->he_dead)
+	if (p->table->n_philo == 1)
 	{
+		p->table->forks[p->l_fork_id] = 1;
+		submit_scroll(p, "has taken a fork");
 		if (coffin_awaits(p))
 			return (NULL);
+		while (!p->table->he_dead)
+		{
+			if (coffin_awaits(p))
+				return (NULL);
+			submit_scroll(p, "is sleeping");
+			alarm_clock(p->table->t_sleep, p);
+			submit_scroll(p, "is thinking");
+		}
+	}
+	while (!p->table->he_dead)
+	{
 		feaster(p);
 		if (coffin_awaits(p)
 			|| (p->table->must_eat >= 0 && p->num_eatin >= p->table->must_eat))
@@ -47,8 +60,11 @@ void	old_age_bummer(t_table *dinner, t_philo *p)
 	}
 	i = -1;
 	while (++i < dinner->n_philo)
-		pthread_mutex_destroy(&dinner->fork[i]);
+		pthread_mutex_destroy(&dinner->fork_mutex[i]);
 	pthread_mutex_destroy(&dinner->scroll_protect);
+	pthread_mutex_destroy(&dinner->food_protect);
+	pthread_mutex_destroy(&dinner->deadly);
+	pthread_mutex_destroy(&dinner->time);
 	pthread_mutex_destroy(&dinner->death_check);
 }
 
@@ -81,6 +97,7 @@ void	birth_machine(t_table *dinner)
 	p = dinner->p;
 	i = -1;
 	pthread_mutex_init(&dinner->scroll_protect, NULL);
+	pthread_mutex_init(&dinner->food_protect, NULL);
 	pthread_mutex_init(&dinner->time, NULL);
 	pthread_mutex_init(&dinner->deadly, NULL);
 	pthread_mutex_init(&dinner->death_check, NULL);
@@ -88,7 +105,7 @@ void	birth_machine(t_table *dinner)
 	dinner->init_time = timestamp(dinner);
 	while (++i < dinner->n_philo)
 	{
-		if (pthread_mutex_init(&dinner->fork[i], NULL))
+		if (pthread_mutex_init(&dinner->fork_mutex[i], NULL))
 			ft_putstr_err("Error!\n\tCan't create locks\n");
 		if (pthread_create(&p[i].thread, NULL, brainzzz, &p[i]))
 			ft_putstr_err("Error!\n\tSpawner broke\n");
